@@ -78,24 +78,30 @@ def user_browses_external_links(NUMBER_OF_EXTERNAL_LINKS, TIME_SPENT_ON_A_LINK_W
 		#time.sleep(TIME_SPENT_ON_A_LINK_WHILE_BROWSING);
 		number_of_executed_links = number_of_executed_links + 1;	
 
-number_of_runs = 0;
 while(1):
-	number_of_runs = number_of_runs + 1;
-	print('Run number '+ str(number_of_runs) + '\n');
-	proc = subprocess.Popen(['C:\\Program Files (x86)\\VPNetwork LLC\\TorGuard\\TorGuardDesktopQt.exe'], shell=True);
-	time.sleep(WAITING_TIME_FOR_VPN_AGENT_START);
+	number_of_runs_current_cycle = random.randint(10, 30);
+	print("Current cycle will produce " + str(number_of_runs_current_cycle) + " runs... \n");
+	sleep_duration_after_current_cycle = 10*random.randint(60, 180);
+	print("I will go to sleep " + str(sleep_duration_after_current_cycle/60) + " minutes after this cycle will end...\n");
+	number_of_runs = 0;
+	while(number_of_runs<number_of_runs_current_cycle):
+		number_of_runs = number_of_runs + 1;
+		print('Run number '+ str(number_of_runs) + '\n');
+		proc = subprocess.Popen(['C:\\Program Files (x86)\\VPNetwork LLC\\TorGuard\\TorGuardDesktopQt.exe'], shell=True);
+		time.sleep(WAITING_TIME_FOR_VPN_AGENT_START);
 
-	profile = webdriver.FirefoxProfile("C:/Users/mihai/AppData/Roaming/Mozilla/Firefox/Profiles/18w4rpcq.default");
-	driver = webdriver.Firefox(firefox_profile=profile);
-	url = 'http://www.timexpres.ro/';
-	driver.get(url);
-	time.sleep(5);
-			
-	user_browses_internal_links(NUMBER_OF_INTERNAL_LINKS, TIME_SPENT_ON_A_LINK_WHILE_BROWSING, driver);
-	user_browses_external_links(NUMBER_OF_EXTERNAL_LINKS, TIME_SPENT_ON_A_LINK_WHILE_BROWSING, driver);
+		profile = webdriver.FirefoxProfile("C:/Users/mihai/AppData/Roaming/Mozilla/Firefox/Profiles/18w4rpcq.default");
+		driver = webdriver.Firefox(firefox_profile=profile);
+		url = 'http://www.timexpres.ro/';
+		driver.get(url);
+		time.sleep(5);
+				
+		user_browses_internal_links(NUMBER_OF_INTERNAL_LINKS, TIME_SPENT_ON_A_LINK_WHILE_BROWSING, driver);
+		user_browses_external_links(NUMBER_OF_EXTERNAL_LINKS, TIME_SPENT_ON_A_LINK_WHILE_BROWSING, driver);
 
-	driver.close();
-	os.system("TASKKILL /F /IM TorGuardDesktopQt.exe");
-	os.system("TASKKILL /F /IM firefox.exe");
-	time.sleep(5);
+		driver.close();
+		os.system("TASKKILL /F /IM TorGuardDesktopQt.exe");
+		os.system("TASKKILL /F /IM firefox.exe");
+		time.sleep(5);
+	time.sleep(sleep_duration_after_current_cycle);
 	
