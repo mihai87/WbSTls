@@ -3,6 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import WebDriverException
+from selenium.common.exceptions import ElementClickInterceptedException
 import time
 import random
 import os
@@ -47,7 +48,7 @@ def user_browses_internal_links(NUMBER_OF_INTERNAL_LINKS, TIME_SPENT_ON_A_LINK_W
 				try:
 					invalid = 0;
 					all_the_links[link_to_visit].click();				
-				except WebDriverException:
+				except (WebDriverException, ElementClickInterceptedException) :
 					print("The link is not clickable, move to the next one...\n");
 					invalid = 1;				
 		print("Found internal link: " + current_link);
