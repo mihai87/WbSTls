@@ -72,9 +72,13 @@ def user_browses_external_links(NUMBER_OF_EXTERNAL_LINKS, TIME_SPENT_ON_A_LINK_W
 			link_to_visit = random.randint(0, total_number_of_files-1);
 			current_link = all_the_links[link_to_visit].get_attribute("href");
 			if url_parser(url) != url_parser(current_link):
-				invalid = 0;
+				try:
+					invalid = 0;
+					all_the_links[link_to_visit].click();				
+				except (WebDriverException, ElementClickInterceptedException) :
+					print("The link is not clickable, move to the next one...\n");
+					invalid = 1;					
 		print("Found external link: " + current_link);	
-		all_the_links[link_to_visit].click();
 		time.sleep(4);
 		#time.sleep(TIME_SPENT_ON_A_LINK_WHILE_BROWSING);
 		number_of_executed_links = number_of_executed_links + 1;	
